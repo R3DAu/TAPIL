@@ -7,7 +7,7 @@
     "dotenv": "^16.0.3",
     "websocket": "^1.0.34"
   },
-  "name": "@r3dau/tapil",
+  "name": "dr3ddbot-tapil",
   "version": "1.0.4",
   "description": "Twitch API Library for DR3DDBOT",
   "main": "./dist/index.js",

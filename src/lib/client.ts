@@ -74,6 +74,10 @@ export class client{
                             if(tags.hasOwnProperty('reply-parent-msg-id'))
                                 replyId = tags['reply-parent-msg-id'];
 
+                        //trim up parameters...
+                        if(parameters)
+                            parameters = parameters.slice(0,-2).trim();
+
                         if (command == "PING")
                             this.connection.sendUTF('PONG :tmi.twitch.tv');
 
@@ -103,8 +107,10 @@ export class client{
                                     this.connection.sendUTF(`PRIVMSG ${parsedMessage.command.channel} :@${nick} ${messages[randomNumber]}`);
                                 }
                                 if(parameters.startsWith(this.commandPrefix)){
-                                         /* TO-DO: Implement Command Prefix Event Handler */
-                                        this.eventEmitter.emit('commandTriggered', parameters.slice(0,-2).slice(1, parameters.length + 1), channel, nick)
+                                        //clean-up parameters, remove the prefix.
+                                        parameters = parameters.slice(1, parameters.length + 1);
+                                        let cmd = parameters.split(" ")[0];
+                                        this.eventEmitter.emit('commandTriggered', cmd, parameters, channel, nick)
                                 }
                         }
 

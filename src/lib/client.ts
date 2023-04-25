@@ -1,9 +1,9 @@
+require('dotenv').config();
 const ws = require('websocket').client;
 const parseMsg = require('./messageParser');
 
-
 export class client{
-    public socketURL: string = "wss://irc-ws.chat.twitch.tv:443";
+    public socketURL: string = process.env.TWITCH_SOCKET_URL || "wss://irc-ws.chat.twitch.tv:443";
     private user: string;
     private pass: string;
     private wsc: typeof ws.client;

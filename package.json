@@ -6,5 +6,23 @@
     "axios": "^1.3.6",
     "dotenv": "^16.0.3",
     "websocket": "^1.0.34"
-  }
+  },
+  "name": "@r3dau/tapil",
+  "version": "1.0.0",
+  "description": "Twitch API Library for DR3DDBOT",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc --build && node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/R3DAu/TAPIL.git"
+  },
+  "author": "Mitchell Reynolds",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/R3DAu/TAPIL/issues"
+  },
+  "homepage": "https://github.com/R3DAu/TAPIL#readme"
 }

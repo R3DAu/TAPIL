@@ -66,15 +66,17 @@ export class client{
                         if (command == "PING")
                             this.connection.sendUTF('PONG :tmi.twitch.tv');
 
-                        /*if(nick == this.user && command == "JOIN")
-                            this.connection.sendUTF(`PRIVMSG ${parsedMessage.command.channel} :If you're lonely reply to me.`);*/
+                        if(nick == this.user && command == "JOIN")
+                            if(process.env.ENABLE_BOT_JOIN_MESSAGE && process.env.ENABLE_BOT_JOIN_MESSAGE === "true")
+                                this.connection.sendUTF(`PRIVMSG ${parsedMessage.command.channel} :${process.env.BOT_JOIN_MESSAGE}`);
 
                         if(replyId)
-                            this.connection.sendUTF(`@reply-parent-msg-id=${replyId} PRIVMSG ${parsedMessage.command.channel} :@${nick} You're loved! Tassielove`);
+                            this.connection.sendUTF(`@reply-parent-msg-id=${replyId} PRIVMSG ${parsedMessage.command.channel} :@${nick} ${process.env.BOT_REPLY_MESSAGE}`);
 
                         if(command == 'PRIVMSG'){
                             if(parameters)
                                 if(parameters.toLowerCase().includes(`@${this.user.toLowerCase()}`)){
+                                    /* TO-DO: Convert these messages to .env config */
                                     let messages:string[] = [
                                         "Times are super tough, Have a kitkat. #NotSponsored.",
                                         "Have you eaten your Weetbix today? #NotSponsored.",
@@ -90,7 +92,7 @@ export class client{
                                     this.connection.sendUTF(`PRIVMSG ${parsedMessage.command.channel} :@${nick} ${messages[randomNumber]}`);
                                 }
                                 if(parameters.startsWith(this.commandPrefix)){
-
+                                         /* TO-DO: Implement Command Prefix Event Handler */
                                 }
                         }
 

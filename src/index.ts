@@ -2,21 +2,13 @@ require('dotenv').config();
 const client = require('./lib/client');
 const helpers = require('./lib/Helpers');
 
-/*
+/*let c = new client.client(process.env.TWITCH_USER,process.env.TWITCH_PASS,process.env.TWITCH_CHANNELS,process.env.COMMAND_PREFIX);
+c.eventEmitter.on('commandTriggered', (parameters:string, channel:string, nick:string) => {
+    console.log(`${parameters} ${channel} ${nick}`);
 
-async function Main(){
-    await helpers.getData();
-}
-
-Main()
-.catch();*/
-
-/*let channels: string[] = [];
-
-if(process.env.TWITCH_CHANNELS)
-    channels = process.env.TWITCH_CHANNELS.split(/[\s,]+/)
-
-let c = new client.client(process.env.TWITCH_USER,process.env.TWITCH_PASS,channels,process.env.COMMAND_PREFIX);
+    if(parameters.startsWith("test"))
+        c.send(channel, "Testing!")
+})
 c.connect();*/
 
 module.exports = {client, helpers}

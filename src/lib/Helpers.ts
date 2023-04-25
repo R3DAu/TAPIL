@@ -12,3 +12,12 @@ async function getData() : Promise<void>{
 }
 
 exports.getData = getData
+
+/*
+
+async function Main(){
+    await helpers.getData();
+}
+
+Main()
+.catch();*/

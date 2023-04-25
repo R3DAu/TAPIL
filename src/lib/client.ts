@@ -1,21 +1,30 @@
 require('dotenv').config();
 const ws = require('websocket').client;
 const parseMsg = require('./messageParser');
+import EventEmitter from "events";
+
+
 
 export class client{
-    public socketURL: string = process.env.TWITCH_SOCKET_URL || "wss://irc-ws.chat.twitch.tv:443";
-    private user: string;
-    private pass: string;
+    public readonly socketURL: string = process.env.TWITCH_SOCKET_URL || "wss://irc-ws.chat.twitch.tv:443";
+    private readonly user: string;
+    private readonly pass: string;
     private wsc: typeof ws.client;
     public channels: string[];
     public connection: typeof ws.client;
     public commandPrefix: string = "!";
+    public debug: boolean = (process.env.DEBUG==="true")
+    public eventEmitter = new EventEmitter();
 
-    constructor(username: string, password: string, channels?: string[], commandprefix?: string){
+    constructor(username: string, password: string, channels?: string, commandprefix?: string){
         this.user = username;
         this.pass = password;
-        this.channels = channels || [];
         this.commandPrefix = commandprefix || this.commandPrefix;
+
+        if(channels)
+            this.channels = channels.split(/[\s,]+/)
+        else
+            this.channels = []
 
         this.wsc = new ws();
 
@@ -39,7 +48,9 @@ export class client{
                 if(message.type === 'utf8'){
                     let parsedMessage = parseMsg.parseMessage(message.utf8Data);
                     if(parsedMessage) {
-                        console.log(parsedMessage);
+
+                        if(this.debug)
+                            console.log(parsedMessage);
 
                         let command    = parsedMessage.command;
                         let tags       = parsedMessage.tags;
@@ -51,8 +62,8 @@ export class client{
                         let nick: string|null = null;
 
                         if(command !== null){
-                            command = command.command;
                             channel = command.channel;
+                            command = command.command;
                         }else
                             return;
 
@@ -93,6 +104,7 @@ export class client{
                                 }
                                 if(parameters.startsWith(this.commandPrefix)){
                                          /* TO-DO: Implement Command Prefix Event Handler */
+                                        this.eventEmitter.emit('commandTriggered', parameters.slice(0,-2).slice(1, parameters.length + 1), channel, nick)
                                 }
                         }
 
@@ -124,6 +136,10 @@ export class client{
 
     public connect() {
         this.wsc.connect( this.socketURL );
+    }
+
+    public send(channel:string, message:string){
+        this.connection.sendUTF(`PRIVMSG ${channel} :${message}`);
     }
 
 }

@@ -3,8 +3,6 @@ const ws = require('websocket').client;
 const parseMsg = require('./messageParser');
 import EventEmitter from "events";
 
-
-
 export class client{
     public readonly socketURL: string = process.env.TWITCH_SOCKET_URL || "wss://irc-ws.chat.twitch.tv:443";
     private readonly user: string;
@@ -147,5 +145,4 @@ export class client{
     public send(channel:string, message:string){
         this.connection.sendUTF(`PRIVMSG ${channel} :${message}`);
     }
-
 }

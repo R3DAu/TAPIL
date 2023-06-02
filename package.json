@@ -9,7 +9,7 @@
     "websocket": "^1.0.34"
   },
   "name": "dr3ddbot-tapil",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Twitch API Library for DR3DDBOT",
   "main": "./dist/index.js",
   "scripts": {
